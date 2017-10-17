@@ -16,7 +16,7 @@ pinMode(12, OUTPUT);
 pinMode(11, OUTPUT);
 pinMode(13, OUTPUT);
 
-Serial.begin(115200);
+Serial.begin(9600);
 while(!Serial){
   ;
 }

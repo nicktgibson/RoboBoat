@@ -16,7 +16,7 @@ pinMode(12, OUTPUT);
 pinMode(11, OUTPUT);
 pinMode(13, OUTPUT);
 
-Serial.begin(115600);
+Serial.begin(9600);
  //   Serial.println(ch);
 Serial.println(" w forward \n a left\n d right \n s reverse \n z stop ");
 
