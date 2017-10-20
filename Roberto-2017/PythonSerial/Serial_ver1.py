@@ -10,5 +10,5 @@ __init__(port="/dev/ttyUSB0", baudrate=9600, bytesize=EIGHTBITS, parity=PARITY_N
 """
 ser = serial.Serial('/dev/ttyACM0', 9600)  # open serial port
 print(ser.name)
-ser.write('w')    # w 0x77 0b0111011
+ser.write('-111+255+200-050>')    # w 0x77 0b0111011
 ser.close()
