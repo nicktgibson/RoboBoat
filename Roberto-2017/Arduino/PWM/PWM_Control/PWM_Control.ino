@@ -105,13 +105,13 @@ void ControlMotorDirection() {
         if (PWM1>255){ //PWM can only accept 0-255
         PWM1=255;}
         Serial.println(PWM1); //On an UNO Pins labled with a ~ are PWM pins. On the mega the entire row is PWM enabled
-        analogWrite(2, PWM1); //Current;y Pins 2,6,10,14 are the PWM 
+        analogWrite(3, PWM1); //Current;y Pins 2,6,10,14 are the PWM 
         
         PWM2=((100*(receivedChars[5]-48))+(10*(receivedChars[6]-48))+(1*(receivedChars[7]-48)));
         if (PWM2>255){
         PWM2=255;}
         Serial.println(PWM2);
-        analogWrite(6, PWM2);
+        analogWrite(5, PWM2);
         
         PWM3=((100*(receivedChars[9]-48))+(10*(receivedChars[10]-48))+(1*(receivedChars[11]-48)));
         if (PWM3>255){
@@ -123,6 +123,6 @@ void ControlMotorDirection() {
         if (PWM4>255){
         PWM4=255;}
         Serial.println(PWM4 );
-        analogWrite(14, PWM4);
+        analogWrite(11, PWM4);
     }
     }
