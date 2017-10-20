@@ -8,7 +8,7 @@ boolean newData = false;
 
 void setup() {
     Serial.begin(9600);
-    Serial.println("Please send +XXX+XXX+XXX+XXX where each + is a + or - and each XXX is 0-255");
+    Serial.println("Please send +XXX+XXX+XXX+XXX where each + is a '+' or '-' and each XXX is 0-255");
 }
 
 void loop() {
@@ -41,7 +41,7 @@ void recvWithEndMarker() {
 
 void showNewData() {
     if (newData == true) {
-        Serial.println(receivedChars);
+        Serial.println(receivedChars[5]);
         newData = false;
     }
 }
