@@ -1,4 +1,5 @@
 import serial
+import time
 
 
 """
@@ -20,6 +21,7 @@ while True:
     ser.write(s)
     if s == 'z':
         ser.write("+000+000+000+000>")
+        time.sleep(1)
         ser.close()
         break
 
