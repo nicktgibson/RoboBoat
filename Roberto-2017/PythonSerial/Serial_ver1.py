@@ -10,6 +10,8 @@ __init__(port="/dev/ttyUSB0", baudrate=9600, bytesize=EIGHTBITS, parity=PARITY_N
 """
 ser = serial.Serial('/dev/ttyACM0', 9600)  # open serial port
 print(ser.name)
+#r = ser.readline()
+#print(r)
 
 while True:
 
@@ -17,6 +19,7 @@ while True:
 
     ser.write(s)
     if s == 'z':
-        ser.write('+000+000+000+000>')
+        ser.write("+000+000+000+000>")
         ser.close()
         break
+

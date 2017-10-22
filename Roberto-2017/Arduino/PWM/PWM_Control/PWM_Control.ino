@@ -81,48 +81,89 @@ void ControlMotorDirection() {
         }
       else if (receivedChars[4]=='-'){
         Serial.println("Motor two reverse");
+        digitalWrite(6, LOW);
+        digitalWrite(7, HIGH);
         }
        else{
         Serial.println("Motor two error");}
         
       if (receivedChars[8]=='+'){            //Motor Three (8,9,10,11)
-        Serial.println("Motor three forward");}
+        Serial.println("Motor three forward");
+        digitalWrite(8, HIGH);
+        digitalWrite(9, LOW);}
       else if (receivedChars[8]=='-'){
-        Serial.println("Motor three reverse");}
+        Serial.println("Motor three reverse");
+        digitalWrite(8, LOW);
+        digitalWrite(9, HIGH);}
        else{
         Serial.println("Motor three error");}
       
       if (receivedChars[12]=='+'){            //Motor Four (12,13,14,15)
-        Serial.println("Motor four forward");}
+        Serial.println("Motor four forward");
+        digitalWrite(12, HIGH);
+        digitalWrite(13, LOW);}
       else if (receivedChars[12]=='-'){
-        Serial.println("Motor four reverse");}
+        Serial.println("Motor four reverse");
+        digitalWrite(12, LOW);
+        digitalWrite(13, HIGH);}
        else{
         Serial.println("Motor four error");}
       
         newData = false;
         
         PWM1=((100*(receivedChars[1]-48))+(10*(receivedChars[2]-48))+(1*(receivedChars[3]-48))); //Reads the XXX into a standard number
-        if (PWM1>255){ //PWM can only accept 0-255
-        PWM1=255;}
-        Serial.println(PWM1); //On an UNO Pins labled with a ~ are PWM pins. On the mega the entire row is PWM enabled
-        analogWrite(3, PWM1); //Current;y Pins 2,6,10,14 are the PWM 
-        
+        if (PWM1==0){
+          digitalWrite(3,LOW);
+        }
+        else if (PWM1>255){ //PWM can only accept 0-255
+          PWM1=255;
+          Serial.println(PWM4 );
+          analogWrite(3, PWM4);
+          }
+        else{
+          Serial.println(PWM1); //On an UNO Pins labled with a ~ are PWM pins. On the mega the entire row is PWM enabled
+          analogWrite(3, PWM1); //Current;y Pins 2,6,10,14 are the PWM 
+        }
         PWM2=((100*(receivedChars[5]-48))+(10*(receivedChars[6]-48))+(1*(receivedChars[7]-48)));
-        if (PWM2>255){
-        PWM2=255;}
-        Serial.println(PWM2);
-        analogWrite(5, PWM2);
+        if (PWM2==0){
+          digitalWrite(5,LOW);
+        }
+        else if (PWM2>255){
+          PWM2=255;
+          Serial.println(PWM4 );
+          analogWrite(5, PWM4);
+        }
+        else {
+          Serial.println(PWM2);
+          analogWrite(5, PWM2);
+        }
         
         PWM3=((100*(receivedChars[9]-48))+(10*(receivedChars[10]-48))+(1*(receivedChars[11]-48)));
-        if (PWM3>255){
-        PWM3=255;}
-        Serial.println(PWM3);
-        analogWrite(10, PWM2);
+        if (PWM3==0){
+          digitalWrite(10,LOW);
+        }
+        else if (PWM3>255){
+          PWM3=255;
+          Serial.println(PWM4 );
+          analogWrite(10, PWM4);
+        }
+        else {
+          Serial.println(PWM3);
+          analogWrite(10, PWM2);
+        }
         
         PWM4=((100*(receivedChars[13]-48))+(10*(receivedChars[14]-48))+(1*(receivedChars[15]-48)));
-        if (PWM4>255){
-        PWM4=255;}
-        Serial.println(PWM4 );
-        analogWrite(11, PWM4);
-    }
+        if (PWM4==0){
+          digitalWrite(11,LOW);
+        }
+        else if (PWM4>255){
+          PWM4=255;
+          Serial.println(PWM4 );
+          analogWrite(11, PWM4);
+        }
+        else {
+          Serial.println(PWM4 );
+          analogWrite(11, PWM4);
+        }
+        }
     }
