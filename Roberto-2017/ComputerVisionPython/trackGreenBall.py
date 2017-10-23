@@ -11,11 +11,22 @@ ap.add_argument("-v", "--video", help="path to the (optional) video file")
 ap.add_argument("-b", "--buffer", type=int, default=64, help="max buffer size")
 args = vars(ap.parse_args())
 
+# setting up text
+font = cv2.FONT_HERSHEY_SIMPLEX
+bottomLeftCornerOfText = (10,440)
+fontScale = 0.75
+fontColor = (0, 0, 255)
+lineType = 1
+
+x = 0
+y = 0
+
+
 # define the lower and upper boundaries of the "green"
 # ball in the HSV color space, then initialize the
 # list of tracked points
-greenLower = (29, 86, 6)
-greenUpper = (64, 255, 255)
+greenLower = (35, 86, 6)
+greenUpper = (120, 200, 200)
 pts = deque(maxlen=args["buffer"])
 
 # if a video path was not supplied, grab the reference
@@ -47,9 +58,7 @@ while True:
     # a series of dilations and erosions to remove any small
     # blobs left in the mask
     mask = cv2.inRange(hsv, greenLower, greenUpper)
-
     mask = cv2.erode(mask, None, iterations=2)
-
     mask = cv2.dilate(mask, None, iterations=2)
 
 
@@ -77,6 +86,7 @@ while True:
                        (0, 255, 255), 2)
             cv2.circle(frame, center, 5, (0, 255, 0), -1)
 
+
     # update the points queue
     pts.appendleft(center)
 
@@ -91,6 +101,16 @@ while True:
         # draw the connecting lines
         thickness = int(np.sqrt(args["buffer"] / float(i + 1)) * 2.5)
         cv2.line(frame, pts[i - 1], pts[i], (0, 255, 0), thickness)
+
+
+    # showing position
+    cv2.putText(frame, str(int(x)) + "," + str(int(y)),
+                bottomLeftCornerOfText,
+                font,
+                fontScale,
+                fontColor,
+                lineType)
+
 
     # show the frame to our screen
     cv2.imshow("Frame", frame)
