@@ -44,19 +44,28 @@ while True:
         ser.write("+000+000+000+000>")
         ser.close()
         break
-    elif s== 'w'
+
+    elif s== 'w' #Full speed ahead
         ser.write("+255+255+255+255>")
         time.sleep(1)
-    elif s == 'a'
+
+    elif s== 's' #Full reverse
+        ser.write("-255-255-255-255>")
+        time.sleep(1)
+
+    elif s == 'a' #Full turn port
         ser.write("+255+255-255-255>")
         time.sleep(1)
-    elif s == 'd'
+
+    elif s == 'd' #Full turn starboard
         ser.write("-255-255+255+255>")
         time.sleep(1)
-    elif s == 'q'
+
+    elif s == 'q' #Half turn port
         ser.write("+180+180-180-180>")
         time.sleep(1)
-    elif s == 'e'
+
+    elif s == 'e' #Half turn starboard
         ser.write("-180-180+180+180>")
         time.sleep(1)
     else:
