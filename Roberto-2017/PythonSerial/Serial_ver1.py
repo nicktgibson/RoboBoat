@@ -18,10 +18,18 @@ while True:
 
     s = raw_input("Command: ")
 
-    ser.write(s)
+
     if s == 'z':
         ser.write("+000+000+000+000>")
         time.sleep(1)
         ser.close()
         break
+    elif s== 'w'
+
+    elif s == 'a'
+
+    elif s == 'd'
+
+    else:
+        ser.write(s)
 
