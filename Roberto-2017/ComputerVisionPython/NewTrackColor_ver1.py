@@ -11,6 +11,15 @@ import imutils
 import cv2
 
 
+
+"""
+To use two camera, switch between the two for each set of frames.
+"""
+
+
+
+
+
 # passing arguments when running code
 ap = argparse.ArgumentParser()
 ap.add_argument("-v", "--video", help="path to the (optional) video file")
