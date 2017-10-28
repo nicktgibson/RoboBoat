@@ -24,27 +24,27 @@ lineType = 1
 xGreen = 0
 yGreen = 0
 
-bottomLeftCornerOfTextRed = (120, 440)
+bottomLeftCornerOfTextRed = (140, 440)
 
 
 xRed = 0
 yRed = 0
 
-
+# ([0-180]H, [0-255]S, [0-255]V)
 # define the lower and upper boundaries of the "green"
 # ball in the HSV color space, then initialize the
 # list of tracked points
-greenLower = (35, 86, 6)
-greenUpper = (120, 200, 200)
+greenLower = (20, 86, 70)
+greenUpper = (40, 200, 200)
 
-# lower mask (0-10)
-lower_redA = np.array([0,50,50])
-upper_redA = np.array([10,255,255])
+# lower mask (0-10) for Red
+lower_redA = np.array([0, 50, 70])
+upper_redA = np.array([10, 255, 200])
 
 
-# upper mask (170-180)
-lower_redB = np.array([170,50,50])
-upper_redB = np.array([180,255,255])
+# upper mask (170-180) Red
+lower_redB = np.array([170, 50, 70])
+upper_redB = np.array([180, 255, 200])
 
 
 
@@ -92,7 +92,6 @@ while True:
     maskRed = cv2.erode(maskRed, None, iterations=2)
     maskRed = cv2.dilate(maskRed, None, iterations=2)
 
-
     # find contours in the mask and initialize the current
     # (x, y) center of the ball
     cntsGreen = cv2.findContours(maskGreen.copy(), cv2.RETR_EXTERNAL,
@@ -137,7 +136,7 @@ while True:
             # then update the list of tracked points
             cv2.circle(frame, (int(xRed), int(yRed)), int(radiusRed),
                         (0, 255, 255), 2)
-            cv2.circle(frame, centerRed, 5, (0, 255, 0), -1)
+            cv2.circle(frame, centerRed, 5, (0, 0, 255), -1)
 
 
 
@@ -168,11 +167,11 @@ while True:
         # otherwise, compute the thickness of the line and
         # draw the connecting lines
         thicknessRed = int(np.sqrt(args["buffer"] / float(i + 1)) * 2.5)
-        cv2.line(frame, ptsRed[i - 1], ptsRed[i], (0, 255, 0), thicknessRed)
+        cv2.line(frame, ptsRed[i - 1], ptsRed[i], (0, 0, 255), thicknessRed)
 
 
     # showing position
-    cv2.putText(frame, "Red Ball",
+    cv2.putText(frame, "Green Ball",
                 (10, 400),
                 font,
                 fontScale,
@@ -186,7 +185,7 @@ while True:
                 lineType)
 
     cv2.putText(frame, "Red Ball",
-                (120, 400),
+                (140, 400),
                 font,
                 fontScale,
                 fontColor,
