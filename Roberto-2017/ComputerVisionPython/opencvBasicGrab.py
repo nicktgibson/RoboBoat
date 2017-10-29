@@ -1,6 +1,9 @@
 # FSU College of Engineering - AUVSI RoboBoat Competition
 # Written by Nicholas Gibson on 10/25/17
 
+# drawing on frame
+# https://docs.opencv.org/3.1.0/dc/da5/tutorial_py_drawing_functions.html
+
 import cv2
 import imutils
 

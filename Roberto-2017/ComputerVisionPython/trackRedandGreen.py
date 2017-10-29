@@ -39,14 +39,12 @@ greenUpper = (40, 200, 200)
 
 # lower mask (0-10) for Red
 lower_redA = np.array([0, 50, 70])
-upper_redA = np.array([10, 255, 200])
+upper_redA = np.array([7, 255, 200])
 
 
 # upper mask (170-180) Red
-lower_redB = np.array([170, 50, 70])
+lower_redB = np.array([172, 50, 70])
 upper_redB = np.array([180, 255, 200])
-
-
 
 ptsRed = deque(maxlen=args["buffer"])
 ptsGreen = deque(maxlen=args["buffer"])
@@ -119,6 +117,9 @@ while True:
             cv2.circle(frame, (int(xGreen), int(yGreen)), int(radiusGreen),
                        (0, 255, 255), 2)
             cv2.circle(frame, centerGreen, 5, (0, 255, 0), -1)
+        else:
+            xGreen = 0
+            yGreen = 0
 
     # only proceed if at least one contour was found
     if len(cntsRed) > 0:
@@ -137,6 +138,9 @@ while True:
             cv2.circle(frame, (int(xRed), int(yRed)), int(radiusRed),
                         (0, 255, 255), 2)
             cv2.circle(frame, centerRed, 5, (0, 0, 255), -1)
+        else:
+            xRed = 0
+            yRed = 0
 
 
 
@@ -144,7 +148,7 @@ while True:
     ptsRed.appendleft(centerRed)
     ptsGreen.appendleft(centerGreen)
 
-    """-------------Fix pts.append-----------------"""
+    """ This block draws the history lines.
 
     # loop over the set of tracked points
     for i in xrange(1, len(ptsGreen)):
@@ -168,6 +172,24 @@ while True:
         # draw the connecting lines
         thicknessRed = int(np.sqrt(args["buffer"] / float(i + 1)) * 2.5)
         cv2.line(frame, ptsRed[i - 1], ptsRed[i], (0, 0, 255), thicknessRed)
+
+    """
+
+    # connect circle centers with line
+    if int(xRed) > 0 and int(xGreen) > 0:
+        cv2.line(frame, (int(xRed), int(yRed)), (int(xGreen), int(yGreen)), (255, 0, 0), 5)
+    else:
+        cv2.line(frame, (0, 0), (0, 0), (255, 0, 0), 5)
+
+    mX = 0
+    mY = 0
+
+    # draw circle at midpoint
+    if (xRed != 0) and (xGreen != 0):
+        # find midpoint of line
+        mX = int(xRed + xGreen) / 2
+        mY = int(yRed + yGreen) / 2
+        cv2.circle(frame, (mX, mY), 20, (255, 0, 255), -1)
 
 
     # showing position
@@ -197,6 +219,26 @@ while True:
                 fontScale,
                 fontColor,
                 lineType)
+
+    cv2.putText(frame, "Center",
+                (260, 400),
+                font,
+                fontScale,
+                fontColor,
+                lineType)
+
+    cv2.putText(frame, str(mX) + "," + str(mY),
+                (260, 440),
+                font,
+                fontScale,
+                fontColor,
+                lineType)
+
+    # Driving
+
+    # Draw boundary lines
+    cv2.line(frame, (250, 0), (250, 600), (255, 255, 255), 4)
+    cv2.line(frame, (350, 0), (350, 600), (255, 255, 255), 4)
 
 
     # show the frame to our screen
