@@ -8,6 +8,13 @@ import argparse
 import imutils
 import cv2
 from discretePID import PID
+import serial
+import time
+
+
+# initialise serial port
+ser = serial.Serial('/dev/ttyACM0', 9600)  # This one is the Boat
+time.sleep(0.5)
 
 # initialise PID control
 p = PID(3.0, 0.4, 1.2)
