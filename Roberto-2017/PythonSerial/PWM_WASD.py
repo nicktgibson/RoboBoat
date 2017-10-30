@@ -1,7 +1,6 @@
 import serial
 import time
 
-
 """
 class serial.Serial
 
@@ -13,14 +12,14 @@ try:
     ser = serial.Serial('/dev/ttyACM0', 9600)  # This one is the Boat
     time.sleep(0.5)
 except:
-    ser = serial.Serial('COM28', 9600)   #This one is for windows
+    ser = serial.Serial('COM28', 9600)  # This one is for windows
     time.sleep(0.5)
 
 sLast = "+000+000+000+000>"
 
 print(ser.name)
-#r = ser.readline()
-#print(r)
+# r = ser.readline()
+# print(r)
 
 while True:
     s = raw_input("Command: ")
@@ -57,23 +56,23 @@ while True:
         ser.write("+255+255+255+255>")
         time.sleep(0.025)
 
-    elif s== 's': #Full reverse
+    elif s == 's':  # Full reverse
         ser.write("-255-255-255-255>")
         time.sleep(0.025)
 
-    elif s == 'a': #Full turn port
+    elif s == 'a':  # Full turn port
         ser.write("+255+255-255-255>")
         time.sleep(0.025)
 
-    elif s == 'd': #Full turn starboard
+    elif s == 'd':  # Full turn starboard
         ser.write("-255-255+255+255>")
         time.sleep(0.025)
 
-    elif s == 'q': #Half turn port
+    elif s == 'q':  # Half turn port
         ser.write("+180+180-180-180>")
         time.sleep(0.025)
 
-    elif s == 'e': #Half turn starboard
+    elif s == 'e':  # Half turn starboard
         ser.write("-180-180+180+180>")
         time.sleep(0.025)
     else:
