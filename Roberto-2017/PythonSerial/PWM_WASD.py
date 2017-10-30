@@ -24,7 +24,7 @@ print(ser.name)
 while True:
     s = raw_input("Command: ")
 
-    if s == 'z':  # Stop
+    if s == 'p':  # Stop
         ser.write("+000+000+000+000>")
         time.sleep(0.025)
         if sLast[0] == '+':  # First + or -
@@ -74,6 +74,9 @@ while True:
 
     elif s == 'e':  # Half turn starboard
         ser.write("-180-180+180+180>")
+        time.sleep(0.025)
+    elif s == 'z':  # Half turn starboard
+        ser.write("+000+000+000+000>")
         time.sleep(0.025)
     else:
         ser.write(s)

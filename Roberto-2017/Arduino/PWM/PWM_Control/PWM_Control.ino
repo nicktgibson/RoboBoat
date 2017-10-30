@@ -61,7 +61,15 @@ void recvWithEndMarker() {
     
     while (Serial.available() > 0 && newData == false) {
         rc = Serial.read();
+        if (rc != 'z'){
+          digitalWrite(3, LOW);
+          digitalWrite(5, LOW);
+          digitalWrite(10, LOW);
+          digitalWrite(11, LOW);
+        }
+        else{
 
+        
         if (rc != '>') {
             receivedChars[ndx] = rc;
             ndx++;
@@ -69,10 +77,17 @@ void recvWithEndMarker() {
                 ndx = numChars - 1;
             }
         }
+        //else if(rc = 'z'){
+        //    digitalWrite(3, LOW);
+        //   digitalWrite(5, LOW);
+        //    digitalWrite(10, LOW);
+        //    digitalWrite(11, LOW);
+        //}
         else {
             receivedChars[ndx] = '\0'; // terminate the string
             ndx = 0;
             newData = true;
+        }
         }
     }
 }
@@ -137,7 +152,7 @@ void ControlMotorDirection() {
           analogWrite(3, PWM4);
           }
         else{
-          Serial.println(PWM1); //On an UNO Pins labled with a ~ are PWM pins. On the mega the entire row is PWM enabled
+          Serial.println(PWM1); //On an UNO Pins labled with a ~ are PWM pins. On the mega the entire row is PWM enable
           analogWrite(3, PWM1); //Current;y Pins 2,6,10,14 are the PWM 
         }
 

@@ -1,5 +1,5 @@
 # FSU College of Engineering - AUVSI RoboBoat Competition
-# Written by Nicholas Gibson on 10/27/17
+# Written by Nicholas Gibson on 10/30/17
 
 # import the necessary packages
 from collections import deque
@@ -7,9 +7,10 @@ import numpy as np
 import argparse
 import imutils
 import cv2
-from discretePID import PID
+#from discretePID import PID
 import serial
 import time
+
 
 
 Drive = False
@@ -22,14 +23,17 @@ ser = serial.Serial('/dev/ttyACM0', 9600)  # This one is the Boat
 time.sleep(0.5)
 
 # initialise PID control
-Scale = 1
-Kp = 3.0/Scale
-Ki = 0.4/Scale
-Kd = 1.2/Scale
+#Scale = 1
+#Kp = 3.0/Scale
+Kp = 1
+#Ki = 0.4/Scale
+#Kd = 1.2/Scale
 
-p = PID(Kp, Ki, Kd)
-p.setPoint(300.0)
+#p = PID(Kp, Ki, Kd)
+#p.setPoint(300.0)
+setPoint = 300
 count = 0
+countoff = 0
 
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
@@ -83,6 +87,10 @@ else:
 
 # keep looping
 while True:
+
+    # flush serial input to avoid crashing when sending serial during loop
+    ser.flushInput()
+
     # grab the current frame
     (grabbed, frame) = camera.read()
 
@@ -171,33 +179,6 @@ while True:
     ptsRed.appendleft(centerRed)
     ptsGreen.appendleft(centerGreen)
 
-    """ This block draws the history lines.
-
-    # loop over the set of tracked points
-    for i in xrange(1, len(ptsGreen)):
-        # if either of the tracked points are None, ignore
-        # them
-        if ptsGreen[i - 1] is None or ptsGreen[i] is None:
-            continue
-
-        # otherwise, compute the thickness of the line and
-        # draw the connecting lines
-        thicknessGreen = int(np.sqrt(args["buffer"] / float(i + 1)) * 2.5)
-        cv2.line(frame, ptsGreen[i - 1], ptsGreen[i], (0, 255, 0), thicknessGreen)
-
-    for i in xrange(1, len(ptsRed)):
-        # if either of the tracked points are None, ignore
-        # them
-        if ptsRed[i - 1] is None or ptsRed[i] is None:
-            continue
-
-        # otherwise, compute the thickness of the line and
-        # draw the connecting lines
-        thicknessRed = int(np.sqrt(args["buffer"] / float(i + 1)) * 2.5)
-        cv2.line(frame, ptsRed[i - 1], ptsRed[i], (0, 0, 255), thicknessRed)
-
-    """
-
     # connect circle centers with line
     if int(xRed) > 0 and int(xGreen) > 0:
         cv2.line(frame, (int(xRed), int(yRed)), (int(xGreen), int(yGreen)), (255, 0, 0), 5)
@@ -271,37 +252,36 @@ while True:
         cv2.line(frame, (300, 0), (300, 600), (255, 0, 255), 3)
 
         # PID
-        # This block should reset the PID if there is nothing on the screen for more than 5 frames.
 
-        if mX == 0:
-            count += 1
-        else:
-            count = 0
-        if count > 5:
-            p = PID(3.0, 0.4, 1.2)
-            p.setPoint(300.0)
+        p = (300-mX) * Kp
 
-        # Note: need to put in something so it doesn't send PID controls when mX is 0
 
-        pid = p.update(mX)
+        if abs(p) > 255:
+            p = 255 * (np.sign(p))
+        if abs(p) < 100:
+            p = 100 * (np.sign(p))
 
-        if abs(pid) > 255:
-            pid = 255 * (np.sign(pid))
-        if abs(pid) < 100:
-            pid = 100 * (np.sign(pid))
+        val = str(int(abs(p)))
 
-        val = str(int(abs(pid)))
-
-        if pid > 0:
+        if p > 20:
             motControl = '-' + val + '-' + val + '+' + val + '+' + val + '>'
-        else:
+        elif p < -20:
             motControl = '+' + val + '+' + val + '-' + val + '-' + val + '>'
+        else:
+            motControl = '+000+000+000+000>'
 
-        if mX != 0:
+        count += 1
+        if mX != 0 and count >= 5:
             ser.write(motControl)
+            count = 0
+        elif mX == 0:
+            countoff += 1
+        if countoff >= 25:
+            ser.reset_input_buffer()
+            ser.write('+000+000+000+000>')
 
 
-        cv2.putText(frame, str(pid),
+        cv2.putText(frame, str(),
                     (300, 300),
                     font,
                     fontScale,
@@ -323,6 +303,7 @@ while True:
 
     # if the 'q' key is pressed, stop the loop
     if key == ord("q"):
+        ser.flushInput()
         ser.write('+000+000+000+000>')
         ser.close()
         break
