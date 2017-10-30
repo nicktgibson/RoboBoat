@@ -24,11 +24,11 @@ while True:
         time.sleep(1)
         ser.close()
         break
-    elif s== 'w'
+    elif: s== 'w'
 
-    elif s == 'a'
+    elif: s == 'a'
 
-    elif s == 'd'
+    elif: s == 'd'
 
     else:
         ser.write(s)

@@ -16,7 +16,7 @@ except:
     ser = serial.Serial('COM28', 9600)   #This one is for windows
     time.sleep(0.5)
 
-
+sLast = "+000+000+000+000>"
 
 print(ser.name)
 #r = ser.readline()
@@ -25,35 +25,35 @@ print(ser.name)
 while True:
     s = raw_input("Command: ")
 
-    if s == 'z': #Stop
+    if s == 'z':  # Stop
         ser.write("+000+000+000+000>")
         time.sleep(0.025)
-        if sLast[0] == '+': # First + or -
-            s[0] = '-'
-        elif sLast[0]=='-':
-            s[0]='+'
+        if sLast[0] == '+':  # First + or -
+            s = '-' + sLast[1:17]
+        elif sLast[0] == '-':
+            s = '+' + sLast[1:17]
 
-        if sLast[4] == '+': #Second + or -
-            s[4] = '-'
-        elif sLast[4]=='-':
-            s[4]='+'
+        if sLast[4] == '+':  # Second + or -
+            s = s[0:4] + '-' + sLast[5:17]
+        elif sLast[4] == '-':
+            s = s[0:4] + '+' + sLast[5:17]
 
-        if sLast[8] == '+': #Third + or -
-            s[8] = '-'
-        elif sLast[8]=='-':
-            s[8]='+'
+        if sLast[8] == '+':  # Third + or -
+            s = s[0:8] + '-' + sLast[9:17]
+        elif sLast[8] == '-':
+            s = s[0:8] + '+' + sLast[9:17]
 
-        if sLast[16] == '+': #Fourth + or -
-            s[16] = '-'
-        elif sLast[16]=='-':
-            s[16]='+'
+        if sLast[12] == '+':  # Fourth + or -
+            s = s[0:12] + '-' + sLast[13:17]
+        elif sLast[12] == '-':
+            s = s[0:12] + '+' + sLast[13:17]
 
-        time.sleep(500)
+        time.sleep(2)
         ser.write("+000+000+000+000>")
         ser.close()
         break
 
-    elif s== 'w': #Full speed ahead
+    elif s == 'w':  # Full speed ahead
         ser.write("+255+255+255+255>")
         time.sleep(0.025)
 
