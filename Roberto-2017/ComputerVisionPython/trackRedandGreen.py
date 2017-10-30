@@ -12,6 +12,7 @@ from discretePID import PID
 # initialise PID control
 p = PID(3.0, 0.4, 1.2)
 p.setPoint(300.0)
+count = 0
 
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
@@ -247,6 +248,19 @@ while True:
     cv2.line(frame, (300, 0), (300, 600), (255, 0, 255), 3)
 
     # PID
+    # This block should reset the PID if there is nothing on the screen for more than 5 frames.
+
+
+    if mX == 0:
+        count += 1
+    else:
+        count = 0
+    if count > 5:
+        p = PID(3.0, 0.4, 1.2)
+        p.setPoint(300.0)
+
+    # need to put in something so it doesn't send PID controls when mX is 0
+
     pid = p.update(mX)
     cv2.putText(frame, str(pid),
                 (300, 300),
