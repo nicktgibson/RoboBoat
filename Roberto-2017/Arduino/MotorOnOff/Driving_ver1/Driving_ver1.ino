@@ -1,7 +1,7 @@
 void setup() {
   // put your setup code here, to run once:
 
-char ch;
+char ch[16];
 
 pinMode(2, OUTPUT);
 pinMode(4, OUTPUT);
@@ -30,129 +30,49 @@ void loop() {
   if(Serial.available())
   {
 
-    char ch = Serial.read();
-    if (ch == 's')      // serial command 's' REVERSE
-     {
+    //ch = Serial.read();
+    ch = '+111+111+111+111';
+    
+    // Motor One
+    if (ch[0] == 'f')      // serial command for the first motor +=forward
+          digitalWrite(2, HIGH); //Motor 1 FWD
+          digitalWrite(4, LOW);
+    else if (ch[0] == '-') //- =backwards
+          digitalWrite(2, LOW); //Motor 1 REV
+          digitalWrite(4, HIGH);
+    //ch(1,2,3) are pwm
+    
+   // Motor Two
+    if (ch[4] == '+')      // serial command for the second motor +=forward
+          digitalWrite(6, HIGH); //Motor 2 FWD
+          digitalWrite(7, LOW);
+       else if (ch[4] == '-') //- =backwards
+          digitalWrite(6, LOW); //Motor 2 REV
+          digitalWrite(7, HIGH);
+    //ch(5,6,7) are pwm
+    
+    // Motor Three
+    if (ch[8] == '+')      // serial command for third motor +=forward
+          digitalWrite(8, HIGH); //Motor 3 FWD
+          digitalWrite(9, LOW);
+       else if (ch[8] == '-') //- =backwards
+          digitalWrite(8, LOW); //Motor 3 REV
+          digitalWrite(9, HIGH);
+    //ch(9,10,11) are pwm
+    
+    // Motor Four
+    if (ch[12] == '+')      // serial command 's' REVERSE
+          digitalWrite(12, HIGH); //Motor 4 FWD
+          digitalWrite(13, LOW);
+          else if (ch[12] == '-') //-=backwards   
+          digitalWrite(12, LOW); //Motor 4 REV
+          digitalWrite(13, HIGH);
+    //ch(13,14,15)are pwm
 
-    digitalWrite(2, LOW); //Motor 1 REV
-    digitalWrite(3, HIGH);
-    digitalWrite(4, HIGH);
 
-    digitalWrite(6, LOW); //Motor 2 REV
-    digitalWrite(5, HIGH);
-    digitalWrite(7, HIGH);
-
-    digitalWrite(8, LOW); //Motor 3 REV
-    digitalWrite(10, HIGH);
-    digitalWrite(9, HIGH);
-
-    digitalWrite(12, LOW); //Motor 4 REV
-    digitalWrite(11, HIGH);
-    digitalWrite(13, HIGH);
-
-    }else if(ch == 'd')  // serial command 'd' CW (right)
-    {
-
-    digitalWrite(2, LOW); //Motor 1 REV
-    digitalWrite(3, HIGH);
-    digitalWrite(4, HIGH);
-
-    digitalWrite(6, LOW); //Motor 2 REV
-    digitalWrite(5, HIGH);
-    digitalWrite(7, HIGH);
-
-    digitalWrite(8, HIGH); //Motor 3 FWD
-    digitalWrite(10, HIGH);
-    digitalWrite(9, LOW);
-
-    digitalWrite(12, HIGH); //Motor 4 FWD
-    digitalWrite(11, HIGH);
-    digitalWrite(13, LOW);
-      
-      
-    }else if(ch == 'a')  // serial command 'a' CCW (left)
-    {
-
-    digitalWrite(2, HIGH); //Motor 1 FWD
-    digitalWrite(3, HIGH);
-    digitalWrite(4, LOW);
-
-    digitalWrite(6, HIGH); //Motor 2 FWD
-    digitalWrite(5, HIGH);
-    digitalWrite(7, LOW);
-
-    digitalWrite(8, LOW); //Motor 3 REV
-    digitalWrite(10, HIGH);
-    digitalWrite(9, HIGH);
-
-    digitalWrite(12, LOW); //Motor 4 REV
-    digitalWrite(11, HIGH);
-    digitalWrite(13, HIGH);
-      
-      
-    }else if(ch == 'w')  // serial command 'w' Forward
-    {
-    Serial.println("FORWARD!");  
-
-    digitalWrite(2, HIGH); //Motor 1 FWD
-    digitalWrite(3, HIGH);
-    digitalWrite(4, LOW);
-
-    digitalWrite(6, HIGH); //Motor 2 FWD
-    digitalWrite(5, HIGH);
-    digitalWrite(7, LOW);
-
-    digitalWrite(8, HIGH); //Motor 3 REV
-    digitalWrite(10, HIGH);
-    digitalWrite(9, LOW);
-
-    digitalWrite(12, HIGH); //Motor 4 REV
-    digitalWrite(11, HIGH);
-    digitalWrite(13, LOW);
-      
-      
-    }else if(ch == 'z')  // serial command 'z' STOP
-    {
-
-    digitalWrite(2, LOW); //Motor 1 OFF
-    digitalWrite(3, LOW);
-    digitalWrite(4, LOW);
-
-    digitalWrite(6, LOW); //Motor 2 OFF
-    digitalWrite(5, LOW);
-    digitalWrite(7, LOW);
-
-    digitalWrite(8, LOW); //Motor 3 OFF
-    digitalWrite(10, LOW);
-    digitalWrite(9, LOW);
-
-    digitalWrite(12, LOW); //Motor 4 OFF
-    digitalWrite(11, LOW);
-    digitalWrite(13, LOW);
-      
-      
-    }
-  
+    
   }else{
     //Serial.println("Serial not detected");
   }
 
-
-  /*
-  digitalWrite(2, LOW); //Motor 1 Fwd
-  digitalWrite(3, HIGH);
-  digitalWrite(4, HIGH);
-
-  digitalWrite(6, LOW); //Motor 2 Fwd
-  digitalWrite(5, HIGH);
-  digitalWrite(7, HIGH);
-
-  digitalWrite(8, LOW); //Motor 3 Fwd
-  digitalWrite(10, HIGH);
-  digitalWrite(9, HIGH);
-
-  digitalWrite(12, LOW); //Motor 4 Fwd
-  digitalWrite(11, HIGH);
-  digitalWrite(13, HIGH);
-  */
 }

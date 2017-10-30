@@ -1,4 +1,5 @@
 import serial
+import time
 
 
 """
@@ -10,5 +11,25 @@ __init__(port="/dev/ttyUSB0", baudrate=9600, bytesize=EIGHTBITS, parity=PARITY_N
 """
 ser = serial.Serial('/dev/ttyACM0', 9600)  # open serial port
 print(ser.name)
-ser.write('w')    # w 0x77 0b0111011
-ser.close()
+#r = ser.readline()
+#print(r)
+
+while True:
+
+    s = raw_input("Command: ")
+
+
+    if s == 'z':
+        ser.write("+000+000+000+000>")
+        time.sleep(1)
+        ser.close()
+        break
+    elif: s== 'w'
+
+    elif: s == 'a'
+
+    elif: s == 'd'
+
+    else:
+        ser.write(s)
+
