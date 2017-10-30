@@ -7,6 +7,11 @@ import numpy as np
 import argparse
 import imutils
 import cv2
+from discretePID import PID
+
+# initialise PID control
+p = PID(3.0, 0.4, 1.2)
+p.setPoint(300.0)
 
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
@@ -237,8 +242,18 @@ while True:
     # Driving
 
     # Draw boundary lines
-    cv2.line(frame, (250, 0), (250, 600), (255, 255, 255), 4)
-    cv2.line(frame, (350, 0), (350, 600), (255, 255, 255), 4)
+    cv2.line(frame, (250, 0), (250, 600), (255, 255, 255), 1)
+    cv2.line(frame, (350, 0), (350, 600), (255, 255, 255), 1)
+    cv2.line(frame, (300, 0), (300, 600), (255, 0, 255), 3)
+
+    # PID
+    pid = p.update(mX)
+    cv2.putText(frame, str(pid),
+                (300, 300),
+                font,
+                fontScale,
+                fontColor,
+                lineType)
 
 
     # show the frame to our screen
