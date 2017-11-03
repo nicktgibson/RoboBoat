@@ -1,5 +1,5 @@
 # FSU College of Engineering - AUVSI RoboBoat Competition
-# Written by Nicholas Gibson on 10/30/17
+# Written by Nicholas Gibson on 11/2/17
 
 # import the necessary packages
 from collections import deque
@@ -7,11 +7,12 @@ import numpy as np
 import argparse
 import imutils
 import cv2
-#from discretePID import PID
+# from discretePID import PID
 import serial
 import time
 
-
+mot = [0, 0, 0, 0]
+motMsg = [0, 0, 0, 0]
 
 Drive = False
 
@@ -22,15 +23,9 @@ motControl = ""
 ser = serial.Serial('/dev/ttyACM0', 9600)  # This one is the Boat
 time.sleep(0.5)
 
-# initialise PID control
-#Scale = 1
-#Kp = 3.0/Scale
+# initialise P control
 Kp = 1
-#Ki = 0.4/Scale
-#Kd = 1.2/Scale
 
-#p = PID(Kp, Ki, Kd)
-#p.setPoint(300.0)
 setPoint = 300
 count = 0
 countoff = 0
@@ -53,7 +48,6 @@ yGreen = 0
 
 bottomLeftCornerOfTextRed = (140, 440)
 
-
 xRed = 0
 yRed = 0
 
@@ -67,7 +61,6 @@ greenUpper = (40, 200, 200)
 # lower mask (0-10) for Red
 lower_redA = np.array([0, 50, 70])
 upper_redA = np.array([7, 255, 200])
-
 
 # upper mask (170-180) Red
 lower_redB = np.array([172, 50, 70])
@@ -115,7 +108,7 @@ while True:
     mask0 = cv2.inRange(hsv, lower_redA, upper_redA)
     mask1 = cv2.inRange(hsv, lower_redA, upper_redA)
 
-    # join my masks
+    # join my masks for red
     maskRed = mask0 + mask1
 
     maskRed = cv2.erode(maskRed, None, iterations=2)
@@ -124,9 +117,9 @@ while True:
     # find contours in the mask and initialize the current
     # (x, y) center of the ball
     cntsGreen = cv2.findContours(maskGreen.copy(), cv2.RETR_EXTERNAL,
-                            cv2.CHAIN_APPROX_SIMPLE)[-2]
+                                 cv2.CHAIN_APPROX_SIMPLE)[-2]
     cntsRed = cv2.findContours(maskRed.copy(), cv2.RETR_EXTERNAL,
-                            cv2.CHAIN_APPROX_SIMPLE)[-2]
+                               cv2.CHAIN_APPROX_SIMPLE)[-2]
 
     centerRed = None
     centerGreen = None
@@ -167,13 +160,11 @@ while True:
             # draw the circle and centroid on the frame,
             # then update the list of tracked points
             cv2.circle(frame, (int(xRed), int(yRed)), int(radiusRed),
-                        (0, 255, 255), 2)
+                       (0, 255, 255), 2)
             cv2.circle(frame, centerRed, 5, (0, 0, 255), -1)
         else:
             xRed = 0
             yRed = 0
-
-
 
     # update the points queue
     ptsRed.appendleft(centerRed)
@@ -194,7 +185,6 @@ while True:
         mX = int(xRed + xGreen) / 2
         mY = int(yRed + yGreen) / 2
         cv2.circle(frame, (mX, mY), 20, (255, 0, 255), -1)
-
 
     # showing position
     cv2.putText(frame, "Green Ball",
@@ -218,7 +208,7 @@ while True:
                 lineType)
 
     cv2.putText(frame, str(int(xRed)) + "," + str(int(yRed)),
-                bottomLeftCornerOfTextRed,
+                (140, 440),
                 font,
                 fontScale,
                 fontColor,
@@ -245,7 +235,6 @@ while True:
     if key == ord("d") or Drive:
         Drive = True
 
-
         # Draw boundary lines
         cv2.line(frame, (250, 0), (250, 600), (255, 255, 255), 1)
         cv2.line(frame, (350, 0), (350, 600), (255, 255, 255), 1)
@@ -253,22 +242,40 @@ while True:
 
         # PID
 
-        p = (300-mX) * Kp
+        p = (300 - mX) * Kp
+        pneg = (300 - mX) * -Kp
+
+        mot[1] = 255 - abs(p)
+        mot[2] = 255 - abs(p)
+
+        mot[0] = -pneg
+        mot[3] = pneg
+
+        for i in mot:
+            if i > 255:
+                i = 255
+            elif i < -255:
+                i = -255
+
+        for i in range(len(mot)):
+            if mot[i] > 99:
+                motMsg[i] = '+' + str(mot[i])
+            elif mot[i] > 9:
+                motMsg[i] = '+0' + str(mot[i])
+            elif mot[i] > -1:
+                motMsg[i] = '+00' + str(mot[i])
+            elif mot[i] > -10:
+                motMsg[i] = '-00' + str(abs(mot[i]))
+            elif mot[i] > -100:
+                motMsg[i] = '-0' + str(abs(mot[i]))
+            elif mot[i] > -256:
+                motMsg[i] = str(mot[i])
+
+        motControl = motMsg[0] + motMsg[1] + motMsg[2] + motMsg[3]
 
 
-        if abs(p) > 255:
-            p = 255 * (np.sign(p))
-        if abs(p) < 100:
-            p = 100 * (np.sign(p))
 
-        val = str(int(abs(p)))
 
-        if p > 20:
-            motControl = '-' + val + '-' + val + '+' + val + '+' + val + '>'
-        elif p < -20:
-            motControl = '+' + val + '+' + val + '-' + val + '-' + val + '>'
-        else:
-            motControl = '+000+000+000+000>'
 
         count += 1
         if mX != 0 and count >= 5:
@@ -299,10 +306,8 @@ while True:
             ser.write('+000+000+000+000>')
     """-----------------------------------------------------"""
 
-
     # show the frame to our screen
     cv2.imshow("Frame", frame)
-
 
     # if the 'q' key is pressed, stop the loop
     if key == ord("q"):

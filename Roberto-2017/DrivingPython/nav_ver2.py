@@ -1,5 +1,5 @@
 # FSU College of Engineering - AUVSI RoboBoat Competition
-# Written by Nicholas Gibson on 10/30/17
+# Written by Nicholas Gibson on 11/2/17
 
 # import the necessary packages
 from collections import deque
@@ -10,6 +10,27 @@ import cv2
 #from discretePID import PID
 import serial
 import time
+
+def FwdAndHeading(speed, omega):
+    # both should be values between 0 and 255
+    # then computes what needs to be sent each motor.
+    # positive omega is a ccw turn.
+
+    base = speed
+    mots = [base, base]
+
+    # currently wrong
+    mots[1] = mots[0] + omega
+
+    # there is a quicker way to do this but this will
+    # work for now
+    while mots[0] > 255 or mots[1] > 255:
+        mots[0] -= 1
+        mots[1] -= 1
+
+    mots[0] = int(mots[0])
+    mots[1] = int(mots[1])
+    return mots
 
 
 
@@ -22,15 +43,9 @@ motControl = ""
 ser = serial.Serial('/dev/ttyACM0', 9600)  # This one is the Boat
 time.sleep(0.5)
 
-# initialise PID control
-#Scale = 1
-#Kp = 3.0/Scale
+# initialise P control
 Kp = 1
-#Ki = 0.4/Scale
-#Kd = 1.2/Scale
 
-#p = PID(Kp, Ki, Kd)
-#p.setPoint(300.0)
 setPoint = 300
 count = 0
 countoff = 0
@@ -115,7 +130,7 @@ while True:
     mask0 = cv2.inRange(hsv, lower_redA, upper_redA)
     mask1 = cv2.inRange(hsv, lower_redA, upper_redA)
 
-    # join my masks
+    # join my masks for red
     maskRed = mask0 + mask1
 
     maskRed = cv2.erode(maskRed, None, iterations=2)
@@ -218,7 +233,7 @@ while True:
                 lineType)
 
     cv2.putText(frame, str(int(xRed)) + "," + str(int(yRed)),
-                bottomLeftCornerOfTextRed,
+                (140, 440),
                 font,
                 fontScale,
                 fontColor,
@@ -254,18 +269,26 @@ while True:
         # PID
 
         p = (300-mX) * Kp
+        pneg = (300-mX) * -Kp
+
+
 
 
         if abs(p) > 255:
             p = 255 * (np.sign(p))
+            pneg = 255 * (np.sign(pneg))
         if abs(p) < 100:
             p = 100 * (np.sign(p))
+            pneg = 100 * (np.sign(pneg))
+
+
+
 
         val = str(int(abs(p)))
 
-        if p > 20:
+        if p > 50:
             motControl = '-' + val + '-' + val + '+' + val + '+' + val + '>'
-        elif p < -20:
+        elif p < -50:
             motControl = '+' + val + '+' + val + '-' + val + '-' + val + '>'
         else:
             motControl = '+000+000+000+000>'
