@@ -17,7 +17,7 @@ motMsg = [0, 0, 0, 0]
 Drive = False
 
 # initialise motor Control message
-motControl = ""
+motControl = "+000+000+000+000"
 
 # initialise serial port
 ser = serial.Serial('/dev/ttyACM0', 9600)  # This one is the Boat
@@ -271,18 +271,19 @@ while True:
             elif mot[i] > -256:
                 motMsg[i] = str(mot[i])
 
-        motControl = motMsg[0] + motMsg[1] + motMsg[2] + motMsg[3]
+        motControl = str(motMsg[0]) + str(motMsg[1]) + str(motMsg[2]) + str(motMsg[3]) + '>'
+        ser.flushInput()
+        ser.write(motControl)
 
-
-
-
-
+        """
         count += 1
         if mX != 0 and count >= 5:
             ser.write(motControl)
             count = 0
         elif mX == 0:
             countoff += 1
+        """
+
         """
         if countoff >= 25:
             ser.reset_input_buffer()
