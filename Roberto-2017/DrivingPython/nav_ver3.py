@@ -272,17 +272,13 @@ while True:
                 motMsg[i] = str(mot[i])
 
         motControl = str(motMsg[0]) + str(motMsg[1]) + str(motMsg[2]) + str(motMsg[3]) + '>'
-        ser.flushInput()
-        ser.write(motControl)
 
-        """
         count += 1
         if mX != 0 and count >= 5:
             ser.write(motControl)
             count = 0
         elif mX == 0:
             countoff += 1
-        """
 
         """
         if countoff >= 25:
@@ -312,7 +308,6 @@ while True:
 
     # if the 'q' key is pressed, stop the loop
     if key == ord("q"):
-        ser.flushInput()
         ser.write('+000+000+000+000>')
         ser.close()
         break

@@ -61,15 +61,6 @@ void recvWithEndMarker() {
     
     while (Serial.available() > 0 && newData == false) {
         rc = Serial.read();
-        if (rc != 'z'){
-          digitalWrite(3, LOW);
-          digitalWrite(5, LOW);
-          digitalWrite(10, LOW);
-          digitalWrite(11, LOW);
-        }
-        else{
-
-        
         if (rc != '>') {
             receivedChars[ndx] = rc;
             ndx++;
@@ -88,8 +79,8 @@ void recvWithEndMarker() {
             ndx = 0;
             newData = true;
         }
-        }
-    }
+        
+    }  
 }
 
 void ControlMotorDirection() {
