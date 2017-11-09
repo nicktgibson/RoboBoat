@@ -1,5 +1,9 @@
 # FSU College of Engineering - AUVSI RoboBoat Competition
-# Written by Nicholas Gibson on 11/2/17
+# Written by Nicholas Gibson on 11/9/17
+
+
+# Only tracks red and drives towards it. As with previous versions, currently is only using a P control
+
 
 # import the necessary packages
 from collections import deque
@@ -242,8 +246,14 @@ while True:
 
         # PID
 
+        # Where I begin to change mX to xRed
+        """
         p = (300 - mX) * Kp
         pneg = (300 - mX) * -Kp
+        """
+        p = (300 - xGreen) * Kp
+        pneg = (300 - xGreen) * -Kp
+
 
         mot[1] = 255 - abs(p)
         mot[2] = 255 - abs(p)
@@ -253,31 +263,32 @@ while True:
 
         for i in mot:
             if i > 255:
-                i = 255
+                i = 255q
             elif i < -255:
                 i = -255
 
         for i in range(len(mot)):
             if mot[i] > 99:
-                motMsg[i] = '+' + str(mot[i])
+                motMsg[i] = '+' + str(int(mot[i]))
             elif mot[i] > 9:
-                motMsg[i] = '+0' + str(mot[i])
+                motMsg[i] = '+0' + str(int(mot[i]))
             elif mot[i] > -1:
-                motMsg[i] = '+00' + str(mot[i])
+                motMsg[i] = '+00' + str(int(mot[i]))
             elif mot[i] > -10:
-                motMsg[i] = '-00' + str(abs(mot[i]))
+                motMsg[i] = '-00' + str(int(abs(mot[i])))
             elif mot[i] > -100:
-                motMsg[i] = '-0' + str(abs(mot[i]))
+                motMsg[i] = '-0' + str(int(abs(mot[i])))
             elif mot[i] > -256:
-                motMsg[i] = str(mot[i])
+                motMsg[i] = str(int(mot[i]))
 
         motControl = str(motMsg[0]) + str(motMsg[1]) + str(motMsg[2]) + str(motMsg[3]) + '>'
 
         count += 1
-        if mX != 0 and count >= 5:
+        # Also changed mX to xRed here as well.
+        if xGreen != 0 and count >= 10:
             ser.write(motControl)
             count = 0
-        elif mX == 0:
+        elif xGreen == 0:
             countoff += 1
 
         """
@@ -286,13 +297,8 @@ while True:
             ser.write('+000+000+000+000>')
         """
 
-        cv2.putText(frame, str(),
-                    (300, 300),
-                    font,
-                    fontScale,
-                    fontColor,
-                    lineType)
-
+        cv2.putText(frame, motControl,
+                    (300, 350),
                     font,
                     fontScale,
                     fontColor,
