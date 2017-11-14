@@ -263,7 +263,7 @@ while True:
 
         for i in mot:
             if i > 255:
-                i = 255q
+                i = 255
             elif i < -255:
                 i = -255
 

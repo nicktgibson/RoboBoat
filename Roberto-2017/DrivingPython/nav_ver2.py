@@ -1,6 +1,8 @@
 # FSU College of Engineering - AUVSI RoboBoat Competition
 # Written by Nicholas Gibson on 11/2/17
 
+# Version 2
+
 # import the necessary packages
 from collections import deque
 import numpy as np

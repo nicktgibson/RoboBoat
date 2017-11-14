@@ -1,6 +1,8 @@
 # FSU College of Engineering - AUVSI RoboBoat Competition
 # Written by Nicholas Gibson on 11/2/17
 
+# Version 3
+
 # import the necessary packages
 from collections import deque
 import numpy as np
@@ -293,10 +295,7 @@ while True:
                     fontColor,
                     lineType)
 
-                    font,
-                    fontScale,
-                    fontColor,
-                    lineType)
+
         if key == ord("z"):
             ser.write('+000+000+000+000>')
     """-----------------------------------------------------"""

@@ -1,6 +1,8 @@
 # FSU College of Engineering - AUVSI RoboBoat Competition
 # Written by Nicholas Gibson on 10/30/17
 
+# First iteration. Probably most stable version currently.
+
 # import the necessary packages
 from collections import deque
 import numpy as np
@@ -281,13 +283,6 @@ while True:
             ser.reset_input_buffer()
             ser.write('+000+000+000+000>')
         """
-
-        cv2.putText(frame, str(),
-                    (300, 300),
-                    font,
-                    fontScale,
-                    fontColor,
-                    lineType)
 
         cv2.putText(frame, motControl,
                     (300, 350),

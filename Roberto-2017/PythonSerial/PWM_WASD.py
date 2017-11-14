@@ -78,6 +78,9 @@ while True:
     elif s == 'z':  # Half turn starboard
         ser.write("+000+000+000+000>")
         time.sleep(0.025)
+    elif s == 'exit':
+        ser.write("+000+000+000+000>")
+        break
     else:
         ser.write(s)
         time.sleep(0.025)
