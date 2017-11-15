@@ -1,9 +1,10 @@
 # FSU College of Engineering - AUVSI RoboBoat Competition
-# Written by Nicholas Gibson on 11/9/17
+# Written by Nicholas Gibson on 11/14/17
 
-
+# Spanish Bull
 # Only tracks red and drives towards it. As with previous versions, currently is only using a P control
 # Drives with P control. Only tracks and shows red.
+# Written off of ver4
 
 # import the necessary packages
 from collections import deque
@@ -11,7 +12,6 @@ import numpy as np
 import argparse
 import imutils
 import cv2
-# from discretePID import PID
 import serial
 import time
 
@@ -47,9 +47,6 @@ fontScale = 0.75
 fontColor = (0, 0, 255)
 lineType = 1
 
-xGreen = 0
-yGreen = 0
-
 bottomLeftCornerOfTextRed = (140, 440)
 
 xRed = 0
@@ -59,8 +56,6 @@ yRed = 0
 # define the lower and upper boundaries of the "green"
 # ball in the HSV color space, then initialize the
 # list of tracked points
-greenLower = (20, 86, 70)
-greenUpper = (40, 200, 200)
 
 # lower mask (0-10) for Red
 lower_redA = np.array([0, 50, 70])
@@ -71,7 +66,6 @@ lower_redB = np.array([172, 50, 70])
 upper_redB = np.array([180, 255, 200])
 
 ptsRed = deque(maxlen=args["buffer"])
-ptsGreen = deque(maxlen=args["buffer"])
 
 # if a video path was not supplied, grab the reference
 # to the webcam
@@ -105,9 +99,6 @@ while True:
     # construct a mask for the color "green", then perform
     # a series of dilations and erosions to remove any small
     # blobs left in the mask
-    maskGreen = cv2.inRange(hsv, greenLower, greenUpper)
-    maskGreen = cv2.erode(maskGreen, None, iterations=2)
-    maskGreen = cv2.dilate(maskGreen, None, iterations=2)
 
     mask0 = cv2.inRange(hsv, lower_redA, upper_redA)
     mask1 = cv2.inRange(hsv, lower_redA, upper_redA)
@@ -120,36 +111,10 @@ while True:
 
     # find contours in the mask and initialize the current
     # (x, y) center of the ball
-    cntsGreen = cv2.findContours(maskGreen.copy(), cv2.RETR_EXTERNAL,
-                                 cv2.CHAIN_APPROX_SIMPLE)[-2]
     cntsRed = cv2.findContours(maskRed.copy(), cv2.RETR_EXTERNAL,
                                cv2.CHAIN_APPROX_SIMPLE)[-2]
 
     centerRed = None
-    centerGreen = None
-
-    """
-    # only proceed if at least one contour was found
-    if len(cntsGreen) > 0:
-        # find the largest contour in the mask, then use
-        # it to compute the minimum enclosing circle and
-        # centroid
-        cGreen = max(cntsGreen, key=cv2.contourArea)
-        ((xGreen, yGreen), radiusGreen) = cv2.minEnclosingCircle(cGreen)
-        MGreen = cv2.moments(cGreen)
-        centerGreen = (int(MGreen["m10"] / MGreen["m00"]), int(MGreen["m01"] / MGreen["m00"]))
-
-        # only proceed if the radius meets a minimum size
-        if radiusGreen > 10:
-            # draw the circle and centroid on the frame,
-            # then update the list of tracked points
-            cv2.circle(frame, (int(xGreen), int(yGreen)), int(radiusGreen),
-                       (0, 255, 255), 2)
-            cv2.circle(frame, centerGreen, 5, (0, 255, 0), -1)
-        else:
-            xGreen = 0
-            yGreen = 0
-    """
 
     # only proceed if at least one contour was found
     if len(cntsRed) > 0:
@@ -174,38 +139,8 @@ while True:
 
     # update the points queue
     ptsRed.appendleft(centerRed)
-    ptsGreen.appendleft(centerGreen)
-
-    # connect circle centers with line
-    if int(xRed) > 0 and int(xGreen) > 0:
-        cv2.line(frame, (int(xRed), int(yRed)), (int(xGreen), int(yGreen)), (255, 0, 0), 5)
-    else:
-        cv2.line(frame, (0, 0), (0, 0), (255, 0, 0), 5)
-
-    mX = 0
-    mY = 0
-
-    # draw circle at midpoint
-    if (xRed != 0) and (xGreen != 0):
-        # find midpoint of line
-        mX = int(xRed + xGreen) / 2
-        mY = int(yRed + yGreen) / 2
-        cv2.circle(frame, (mX, mY), 20, (255, 0, 255), -1)
 
     # showing position
-    cv2.putText(frame, "Green Ball",
-                (10, 400),
-                font,
-                fontScale,
-                fontColor,
-                lineType)
-    cv2.putText(frame, str(int(xGreen)) + "," + str(int(yGreen)),
-                bottomLeftCornerOfText,
-                font,
-                fontScale,
-                fontColor,
-                lineType)
-
     cv2.putText(frame, "Red Ball",
                 (140, 400),
                 font,
@@ -215,20 +150,6 @@ while True:
 
     cv2.putText(frame, str(int(xRed)) + "," + str(int(yRed)),
                 (140, 440),
-                font,
-                fontScale,
-                fontColor,
-                lineType)
-
-    cv2.putText(frame, "Center",
-                (260, 400),
-                font,
-                fontScale,
-                fontColor,
-                lineType)
-
-    cv2.putText(frame, str(mX) + "," + str(mY),
-                (260, 440),
                 font,
                 fontScale,
                 fontColor,
@@ -247,14 +168,8 @@ while True:
         cv2.line(frame, (300, 0), (300, 600), (255, 0, 255), 3)
 
         # PID
-
-        # Where I begin to change mX to xRed
-        """
-        p = (300 - mX) * Kp
-        pneg = (300 - mX) * -Kp
-        """
-        p = (300 - xGreen) * Kp
-        pneg = (300 - xGreen) * -Kp
+        p = (300 - xRed) * Kp
+        pneg = (300 - xRed) * -Kp
 
 
         mot[1] = 255 - abs(p)
@@ -262,12 +177,6 @@ while True:
 
         mot[0] = -pneg
         mot[3] = pneg
-
-        for i in mot:
-            if i > 255:
-                i = 255
-            elif i < -255:
-                i = -255
 
         for i in range(len(mot)):
             if mot[i] > 255:
@@ -292,17 +201,11 @@ while True:
 
         count += 1
         # Also changed mX to xRed here as well.
-        if xGreen != 0 and count >= 10:
+        if xRed != 0 and count >= 10:
             ser.write(motControl)
             count = 0
-        elif xGreen == 0:
+        elif xRed == 0:
             countoff += 1
-
-        """
-        if countoff >= 25:
-            ser.reset_input_buffer()
-            ser.write('+000+000+000+000>')
-        """
 
         cv2.putText(frame, motControl,
                     (300, 350),
