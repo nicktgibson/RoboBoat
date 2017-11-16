@@ -4,6 +4,8 @@
 // Written by Nick Hussey
 // 10-20-2017
 
+//#include<string>
+
 const byte numChars = 32;
 char receivedChars[numChars];   // an array to store the received data
 
@@ -30,6 +32,7 @@ void setup() {
   pinMode(11, OUTPUT);
   pinMode(12, OUTPUT);
   pinMode(13, OUTPUT);
+  pinMode(14, OUTPUT);
 
   digitalWrite(2, LOW);
   digitalWrite(3, LOW);
@@ -68,6 +71,10 @@ void recvWithEndMarker() {
                 ndx = numChars - 1;
             }
         }
+       // receivedChars = itoa((receivedChars [1]))// + string(receivedChars [2]);
+      //  receivedChars = receivedChars[(sizeof(receivedChars)-17)]+receivedChars[(sizeof(receivedChars)-16)]+receivedChars[(sizeof(receivedChars)-15)]+receivedChars[(sizeof(receivedChars)-14)]+receivedChars[(sizeof(receivedChars)-13)]+receivedChars[(sizeof(receivedChars)-12)]+receivedChars[(sizeof(receivedChars)-11)]+receivedChars[(sizeof(receivedChars)-10)]+receivedChars[(sizeof(receivedChars)-9)]+receivedChars[(sizeof(receivedChars)-8)]+receivedChars[(sizeof(receivedChars)-7)]+receivedChars[(sizeof(receivedChars)-6)]+receivedChars[(sizeof(receivedChars)-5)]+receivedChars[(sizeof(receivedChars)-4)]+receivedChars[(sizeof(receivedChars)-3)]+receivedChars[(sizeof(receivedChars)-2)]+receivedChars[(sizeof(receivedChars)-1)];
+        //receivedChars = receivedChars.substr((sizeof(receivedChars)-16),sizeof(receivedChars))
+        //receivedChars = receivedChars[(sizeof(receivedChars)-16):sizeof(receivedChars)]
         //else if(rc = 'z'){
         //    digitalWrite(3, LOW);
         //   digitalWrite(5, LOW);
@@ -99,12 +106,12 @@ void ControlMotorDirection() {
       if (receivedChars[4]=='+'){            //Motor Two (4,5,6,7)
         Serial.println("Motor two forward");
         digitalWrite(6, HIGH);
-        digitalWrite(7, LOW);
+        digitalWrite(7, LOW); // previously 7
         }
       else if (receivedChars[4]=='-'){
         Serial.println("Motor two reverse");
         digitalWrite(6, LOW);
-        digitalWrite(7, HIGH);
+        digitalWrite(7, HIGH);  // previously 7
         }
        else{
         Serial.println("Motor two error");}

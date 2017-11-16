@@ -201,7 +201,7 @@ while True:
 
         count += 1
         # Also changed mX to xRed here as well.
-        if xRed != 0 and count >= 10:
+        if xRed != 0 and count >= 20:
             ser.write(motControl)
             count = 0
         elif xRed == 0:

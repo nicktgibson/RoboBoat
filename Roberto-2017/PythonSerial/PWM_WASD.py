@@ -85,3 +85,5 @@ while True:
         ser.write(s)
         time.sleep(0.025)
     sLast = s
+
+#+255+255+000+255>
