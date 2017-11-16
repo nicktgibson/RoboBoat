@@ -27,6 +27,12 @@ y = 0
 # list of tracked points
 greenLower = (35, 86, 6)
 greenUpper = (120, 200, 200)
+
+
+
+
+
+
 pts = deque(maxlen=args["buffer"])
 
 # if a video path was not supplied, grab the reference
