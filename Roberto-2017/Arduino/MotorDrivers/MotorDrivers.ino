@@ -185,8 +185,8 @@ void useData() {
 
          motorOneOutputDesired = ((6*motorOneOutputDesiredOld)+(4*motorOneOutputDesired))/10;
          motorTwoOutputDesired = ((6*motorTwoOutputDesiredOld)+(4*motorTwoOutputDesired))/10;
-         motorThreeOutputDesired = ((6*motorTwoOutputDesiredOld)+(4*motorThreeOutputDesired))/10;
-         motorFourOutputDesired = ((6*motorTwoOutputDesiredOld)+(4*motorFourOutputDesired))/10;
+         motorThreeOutputDesired = ((6*motorThreeOutputDesiredOld)+(4*motorThreeOutputDesired))/10;
+         motorFourOutputDesired = ((6*motorFourOutputDesiredOld)+(4*motorFourOutputDesired))/10;
 
          motorOneOutputDesiredOld = motorOneOutputDesired;
          motorTwoOutputDesiredOld = motorTwoOutputDesired;
