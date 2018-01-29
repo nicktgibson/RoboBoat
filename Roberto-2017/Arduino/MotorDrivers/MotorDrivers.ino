@@ -7,38 +7,30 @@
  /*      vvvvv This is the desired input from serial to control the motors, just copy and paste it into the serial monitor (ctrl+shift+m)
   *      <+111+222+333+444>
   */
+// How to control the motor https://www.robotshop.com/letsmakerobots/files/userpics/u19659/20131105_-_KoBot25.jpg from https://www.robotshop.com/letsmakerobots/dual-mc33926-motor-driver-control-pins  
+
+  const byte numChars = 64;
+  char receivedChars[numChars];
+  boolean error=0;
+  boolean newData = false;
+  boolean debug = 1;
+  const int lowerPWM=100;
   
-
-const byte numChars = 64;
-char receivedChars[numChars];
-boolean error=0;
-
-boolean newData = false;
-boolean debug = 1;
-
-const int lowerPWM=100;
-
-        int motorOneOutputDesiredOld = 0;
-        int motorTwoOutputDesiredOld = 0;
-        int motorThreeOutputDesiredOld = 0;
-        int motorFourOutputDesiredOld = 0;
+  int motorOneOutputDesiredOld = 0;
+  int motorTwoOutputDesiredOld = 0;
+  int motorThreeOutputDesiredOld = 0;
+  int motorFourOutputDesiredOld = 0;
 
 //Pins
-// How to control the motor https://www.robotshop.com/letsmakerobots/files/userpics/u19659/20131105_-_KoBot25.jpg from https://www.robotshop.com/letsmakerobots/dual-mc33926-motor-driver-control-pins
-const int m1in1=0;
-const int m1in2=1;
-const int m1d1=3;
-const int m1d2=2;
-const int enPin=4;
-
 
 void setup() {
     Serial.begin(9600);
     Serial.println("<FAMU-FSU Robo-boat Motor Driver is ready>");
-    Serial.println("Version 1.1. Uses Mega, uses DesiredOutputs, controls all four motors.");
+    Serial.println("Version 1.2. Fixed the low pass filter.");
     if (debug == 1){
     Serial.print("The lowest PWM that motors will activate at is: ");  
     Serial.println(lowerPWM);
+    Serial.println("We need to go back and see what the new lowest PWM that causes motion in the water is.");
     }
     Serial.println("--------------------------------------");
      pinMode(23, OUTPUT);  //Driver 1 M1 Enable        
@@ -61,7 +53,7 @@ void setup() {
      pinMode(48, OUTPUT);  //Driver 2 M2In1
      pinMode(10, OUTPUT);  //Driver 2 M2PWM
      
-     digitalWrite(23,LOW); 
+     digitalWrite(23,LOW);  //Set all the pins to low on startup
      digitalWrite(25,LOW); 
      digitalWrite(27,LOW); 
      digitalWrite(5,LOW); 
@@ -90,6 +82,7 @@ void loop() {
     useData();
     
 }
+
 
 void recvWithStartEndMarkers() {
     static boolean recvInProgress = false;
@@ -129,6 +122,9 @@ void useData() {
    //Change +255 to -255 to 510 values, apply a low pass filter, and set a warning flag if it tries to switch too much,
     if (newData == true) {        
         int len = strlen(receivedChars);
+        if (debug == 1){
+          Serial.println(receivedChars);
+        }
         if (len>15){ //Because we take the last 16, having less than 15 causes issues.
         //Serial.println(&receivedChars[len - lenFromEnd]); //This displays the whole motor driver command
         
@@ -145,6 +141,7 @@ void useData() {
         int motorOneOutputDesired=motorOneInput; 
         if (direction1=='-')
           motorOneOutputDesired=(-1*motorOneInput);   
+       
         // motor two input
         char direction2 = receivedChars[4];
         int motorTwoInput = ((receivedChars[5]-48)*100)+((receivedChars[6]-48)*10)+((receivedChars[7]-48)*1);
@@ -156,6 +153,7 @@ void useData() {
         int motorTwoOutputDesired=motorTwoInput; 
         if (direction2=='-')
           motorTwoOutputDesired=(-1*motorTwoInput);
+        
         // motor three input
         char direction3 = receivedChars[8];
         int motorThreeInput = ((receivedChars[9]-48)*100)+((receivedChars[10]-48)*10)+((receivedChars[11]-48)*1);
@@ -165,8 +163,9 @@ void useData() {
         motorThreeInput=0;
         // motor three output
         int motorThreeOutputDesired = motorThreeInput; 
-        if (direction1=='-')
+        if (direction3=='-')
           motorThreeOutputDesired = (-1*motorThreeInput);
+        
         // motor four input
         char direction4 = receivedChars[12];
         int motorFourInput = ((receivedChars[13]-48)*100)+((receivedChars[14]-48)*10)+((receivedChars[15]-48)*1);
@@ -176,7 +175,7 @@ void useData() {
         motorFourInput=0;
         //motor four output
         int motorFourOutputDesired = motorFourInput; 
-        if (direction1=='-')
+        if (direction4=='-')
           motorFourOutputDesired = (-1*motorFourInput);
 
 
@@ -197,6 +196,8 @@ void useData() {
          int motorTwoOutput=motorTwoOutputDesired;
          int motorThreeOutput=motorThreeOutputDesired;
          int motorFourOutput=motorFourOutputDesired;
+
+         //set the 255 and lowerPWM limits again
 
         if (abs(motorOneOutput)>255) //This section is important because after the low pass filter you can go back under the low PWM limit (ie send it +200 and -190)
         motorOneOutput = 255;        //This can burn out the motor or the motor driver because you're dumping current because the motor is under its starting limit.
@@ -222,6 +223,7 @@ void useData() {
         //debug to print the outputs
 
         if (debug == 1){
+            
           Serial.print("Motor one is going ");
           Serial.print(motorOneOutput);
           Serial.print(", desired is");
@@ -240,7 +242,7 @@ void useData() {
           Serial.print("Motor four is going ");
           Serial.print(motorFourOutput);
           Serial.print(", desired is");
-          Serial.println(motorTwoOutputDesired);
+          Serial.println(motorFourOutputDesired);
 
           Serial.println("--------------------------------------");
           
@@ -271,20 +273,20 @@ void useData() {
         // Driver 1, motor 2
         if (direction2=='+'){
         digitalWrite(22,HIGH); //Enable
-        digitalWrite(24,HIGH); //M1In2
-        digitalWrite(26,LOW); //M1In1
+        digitalWrite(24,HIGH); //M2In2
+        digitalWrite(26,LOW); //M2In1
         analogWrite(6,abs(motorTwoOutput)); //Speed control
         }
         else if (direction2=='-'){
          digitalWrite(22,HIGH); //Enable
-         digitalWrite(24,LOW); //M1In2
-         digitalWrite(26,HIGH); //M1In1
+         digitalWrite(24,LOW); //M2In2
+         digitalWrite(26,HIGH); //M2In1
          analogWrite(6,abs(motorTwoOutput)); //Speed control
         }
         else {
          digitalWrite(22,HIGH); //Enable
-         digitalWrite(24,LOW); //M1In2
-         digitalWrite(26,LOW); //M1In1
+         digitalWrite(24,LOW); //M12n2
+         digitalWrite(26,LOW); //M12n1
          analogWrite(6,0); //Speed control
         
         }
@@ -292,20 +294,20 @@ void useData() {
         // Driver 2, motor 1
         if (direction3=='+'){
         digitalWrite(53,HIGH); //Enable
-        digitalWrite(51,HIGH); //M1In2
-        digitalWrite(49,LOW); //M1In1
+        digitalWrite(51,HIGH); //D2 M1In2
+        digitalWrite(49,LOW); //D2 M1In1
         analogWrite(9,abs(motorThreeOutput)); //Speed control
         }
         else if (direction3=='-'){
          digitalWrite(53,HIGH); //Enable
-         digitalWrite(51,LOW); //M1In2
-         digitalWrite(49,HIGH); //M1In1
+         digitalWrite(51,LOW); //D2 M1In2
+         digitalWrite(49,HIGH); //D2 M1In1
          analogWrite(9,abs(motorThreeOutput)); //Speed control
         }
         else {
          digitalWrite(53,HIGH); //Enable
-         digitalWrite(51,LOW); //M1In2
-         digitalWrite(49,LOW); //M1In1
+         digitalWrite(51,LOW); //D2 M1In2
+         digitalWrite(49,LOW); //D2 M1In1
          analogWrite(9,0); //Speed control
         
         }
@@ -313,28 +315,51 @@ void useData() {
         // Driver 2, motor 2
         if (direction4=='+'){
         digitalWrite(52,HIGH); //Enable
-        digitalWrite(50,HIGH); //M1In2
-        digitalWrite(48,LOW); //M1In1
+        digitalWrite(50,HIGH); //D2 M1In2
+        digitalWrite(48,LOW); //D2 M1In1
         analogWrite(10,abs(motorFourOutput)); //Speed control
         }
         else if (direction4=='-'){
          digitalWrite(52,HIGH); //Enable
-         digitalWrite(50,LOW); //M1In2
-         digitalWrite(48,HIGH); //M1In1
+         digitalWrite(50,LOW); //D2 M1In2
+         digitalWrite(48,HIGH); //D2 M1In1
          analogWrite(10,abs(motorFourOutput)); //Speed control
         }
         else {
          digitalWrite(52,HIGH); //Enable
-         digitalWrite(50,LOW); //M1In2
-         digitalWrite(48,LOW); //M1In1
+         digitalWrite(50,LOW); //D2 M1In2
+         digitalWrite(48,LOW); //D2 M1In1
          analogWrite(10,0); //Speed control
         
         }
 
 
         
-    }
-    else{
+    } //if >15 character long
+    else if ((receivedChars[0]=='z') || (receivedChars[0]=='Z') || (receivedChars[0]=='?' )) { //stop command
+      digitalWrite(23,HIGH); //Enable
+      digitalWrite(25,LOW); //M1In2
+      digitalWrite(27,LOW); //M1In1
+      analogWrite(5,0); //Speed control
+
+      digitalWrite(22,HIGH); //Enable
+      digitalWrite(24,LOW); //M22n2
+      digitalWrite(26,LOW); //M22n1
+      analogWrite(6,0); //Speed control
+
+      digitalWrite(53,HIGH); //Enable
+      digitalWrite(51,LOW); //D2 M1In2
+      digitalWrite(49,LOW); //D2 M1In1
+      analogWrite(9,0); //Speed control
+
+      digitalWrite(52,HIGH); //Enable
+      digitalWrite(50,LOW); //D2 M1In2
+      digitalWrite(48,LOW); //D2 M1In1
+      analogWrite(10,0); //Speed control
+    } //end of stop command
+
+    
+    else{ //less than 15 char and unknown command
       Serial.println("The command is too short");
       error=true;
     }
