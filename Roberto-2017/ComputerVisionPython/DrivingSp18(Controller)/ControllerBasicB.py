@@ -8,14 +8,18 @@ sio = io.TextIOWrapper(io.BufferedRWPair(ser, ser))
 print(ser.name)
 
 
-with serial.Serial('/dev/ttyACM0', 9600, timeout=10) as ser:
-    #x = ser.read()
-    #s = ser.read(1)
-    sio.flush()
-    line = ser.readline()
+ser = serial.Serial('/dev/ttyACM0', 9600, timeout=2)
+#x = ser.read()
+#s = ser.read(1)
+
 
 #print x
 #print s
-if line == "<Manual Activated>\n":
+line = "string"
+while(line[0:18] != "<Manual Activated>"):
+    sio.flush()
+    line = ser.readline()
+    print line[0:18]
     print line
-    print "Grabbed"
+
+ser.close()
