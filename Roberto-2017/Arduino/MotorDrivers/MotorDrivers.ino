@@ -13,7 +13,7 @@
   char receivedChars[numChars];
   boolean error=0;
   boolean newData = false;
-  boolean debug = 1;
+  boolean debug = 0;
   const int lowerPWM=100;
   
   int motorOneOutputDesiredOld = 0;
