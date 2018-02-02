@@ -9,7 +9,7 @@ import time
 motControl = "+000+000+000+000"
 
 # Initialise serial port
-#ser = serial.Serial('/dev/ttyACM0', 9600) # For the boat
+ser = serial.Serial('/dev/ttyACM0', 9600) # For the boat
 time.sleep(0.5)
 
 # Define some colors
@@ -110,8 +110,8 @@ while done == False:
 
     textPrint.blankline()
 
-    leftMot = int(axisLY*-255)
-    rightMot = int(axisRY*-255)
+    rightMot = int(axisLY*-255)
+    leftMot = int(axisRY*-255)
 
     textPrint.Print(screen, "Motor 1: {}".format(leftMot))
 
@@ -179,6 +179,7 @@ while done == False:
 
     textPrint.blankline()
     textPrint.Print(screen, "{}".format(motControl))
+    ser.write(motControl)
 
     # Display Screen
     pygame.display.flip()
