@@ -2,10 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
 <<<<<<< HEAD
+    <list default="true" id="14443361-7e47-46c7-b00c-eecf16328d4d" name="Default" comment="" />
+=======
+<<<<<<< HEAD
     <list default="true" id="43872c54-3a36-4262-8366-90a2534a5fae" name="Default" comment="" />
 =======
     <list default="true" id="90f0b435-830a-4677-8d9e-5beb2abe9743" name="Default" comment="" />
 >>>>>>> a1b92da8dd39099ca80759bf141e210e32998b98
+>>>>>>> 5efdcaa2288608334916aea879aba562260bb2a6
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,6 +18,15 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
+<<<<<<< HEAD
+    <leaf>
+      <file leaf-file-name="MotorDrivers.ino" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Arduino/MotorDrivers/MotorDrivers.ino">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-561">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+=======
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
 <<<<<<< HEAD
       <file leaf-file-name="PWM_WASD.py" pinned="false" current-in-tab="true">
@@ -32,12 +45,20 @@
               <caret line="1" column="40" lean-forward="true" selection-start-line="1" selection-start-column="40" selection-end-line="1" selection-end-column="40" />
               <folding />
 >>>>>>> a1b92da8dd39099ca80759bf141e210e32998b98
+>>>>>>> 5efdcaa2288608334916aea879aba562260bb2a6
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
   </component>
+<<<<<<< HEAD
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-1171" />
+    <option name="y" value="-8" />
+    <option name="width" value="1080" />
+    <option name="height" value="1050" />
+=======
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -69,6 +90,7 @@
     <option name="width" value="1400" />
     <option name="height" value="1000" />
 >>>>>>> a1b92da8dd39099ca80759bf141e210e32998b98
+>>>>>>> 5efdcaa2288608334916aea879aba562260bb2a6
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -86,9 +108,12 @@
     </navigator>
     <panes>
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
       <pane id="Scratches" />
 =======
 >>>>>>> a1b92da8dd39099ca80759bf141e210e32998b98
+>>>>>>> 5efdcaa2288608334916aea879aba562260bb2a6
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -102,11 +127,18 @@
               <item name="Roberto-2017" type="462c0819:PsiDirectoryNode" />
 <<<<<<< HEAD
 =======
+<<<<<<< HEAD
+=======
+>>>>>>> 5efdcaa2288608334916aea879aba562260bb2a6
               <item name="Arduino" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Roberto-2017" type="b2602c69:ProjectViewProjectNode" />
               <item name="Roberto-2017" type="462c0819:PsiDirectoryNode" />
+<<<<<<< HEAD
+              <item name="Arduino" type="462c0819:PsiDirectoryNode" />
+              <item name="MotorDrivers" type="462c0819:PsiDirectoryNode" />
+=======
               <item name="ComputerVisionPython" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -120,11 +152,19 @@
               <item name="Roberto-2017" type="462c0819:PsiDirectoryNode" />
 >>>>>>> a1b92da8dd39099ca80759bf141e210e32998b98
               <item name="PythonSerial" type="462c0819:PsiDirectoryNode" />
+>>>>>>> 5efdcaa2288608334916aea879aba562260bb2a6
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+<<<<<<< HEAD
+      <pane id="Scratches" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="settings.editor.selected.configurable" value="fileTemplates" />
+=======
 <<<<<<< HEAD
 =======
       <pane id="Scratches" />
@@ -133,6 +173,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+>>>>>>> 5efdcaa2288608334916aea879aba562260bb2a6
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -152,6 +193,13 @@
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
 <<<<<<< HEAD
+      <changelist id="14443361-7e47-46c7-b00c-eecf16328d4d" name="Default" comment="" />
+      <created>1516660283245</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1516660283245</updated>
+=======
+<<<<<<< HEAD
       <changelist id="43872c54-3a36-4262-8366-90a2534a5fae" name="Default" comment="" />
       <created>1509051383082</created>
       <option name="number" value="Default" />
@@ -164,10 +212,32 @@
       <option name="presentableId" value="Default" />
       <updated>1510004129056</updated>
 >>>>>>> a1b92da8dd39099ca80759bf141e210e32998b98
+>>>>>>> 5efdcaa2288608334916aea879aba562260bb2a6
     </task>
     <servers />
   </component>
   <component name="ToolWindowManager">
+<<<<<<< HEAD
+    <frame x="-1928" y="-8" width="1936" height="1066" extended-state="6" />
+    <layout>
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+=======
 <<<<<<< HEAD
     <frame x="-11" y="-11" width="2089" height="1462" extended-state="6" />
     <layout>
@@ -210,6 +280,7 @@
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15351813" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
 >>>>>>> a1b92da8dd39099ca80759bf141e210e32998b98
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+>>>>>>> 5efdcaa2288608334916aea879aba562260bb2a6
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -221,6 +292,11 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/Arduino/MotorDrivers/MotorDrivers.ino">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-561">
+=======
 <<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/PythonSerial/PWM with WASD.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -306,11 +382,14 @@
     <entry file="file://$PROJECT_DIR$/ComputerVisionPython/twoCamera/ssfd.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
+>>>>>>> 5efdcaa2288608334916aea879aba562260bb2a6
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
+=======
     <entry file="file://$PROJECT_DIR$/ComputerVisionPython/discretePID.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
@@ -320,5 +399,6 @@
         </state>
       </provider>
     </entry>
+>>>>>>> 5efdcaa2288608334916aea879aba562260bb2a6
   </component>
 </project>
