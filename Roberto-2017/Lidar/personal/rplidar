@@ -1,0 +1,9 @@
+ls -l /dev |grep ttyUSB
+sudo chmod 666 /dev/ttyUSB0
+roslaunch rplidar_ros view_rplidar.launch
+
+roslaunch hector_slam_launch tutorial.launch
+roslaunch rplidar_ros view_slam.launch
+
+
+
