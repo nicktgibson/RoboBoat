@@ -14,15 +14,6 @@ ap.add_argument("-v", "--video", help="path to the (optional) video file")
 ap.add_argument("-b", "--buffer", type=int, default=64, help="max buffer size")
 args = vars(ap.parse_args())
 
-# setting up text
-font = cv2.FONT_HERSHEY_SIMPLEX
-bottomLeftCornerOfText = (10, 440)
-fontScale = 0.75
-fontColor = (0, 0, 255)
-lineType = 1
-
-bottomLeftCornerOfTextRed = (140, 440)
-
 # ([0-180]H, [0-255]S, [0-255]V)
 # define the lower and upper boundaries of the "green"
 # ball in the HSV color space, then initialize the
@@ -165,34 +156,6 @@ while True:
         # draw the connecting lines
         thicknessRed = int(np.sqrt(args["buffer"] / float(i + 1)) * 2.5)
         cv2.line(frame, ptsRed[i - 1], ptsRed[i], (0, 0, 255), thicknessRed)
-
-    # showing position
-    cv2.putText(frame, "Green Ball",
-                (10, 400),
-                font,
-                fontScale,
-                fontColor,
-                lineType)
-    cv2.putText(frame, str(int(xGreen)) + "," + str(int(yGreen)),
-                bottomLeftCornerOfText,
-                font,
-                fontScale,
-                fontColor,
-                lineType)
-
-    cv2.putText(frame, "Red Ball",
-                (140, 400),
-                font,
-                fontScale,
-                fontColor,
-                lineType)
-
-    cv2.putText(frame, str(int(xRed)) + "," + str(int(yRed)),
-                bottomLeftCornerOfTextRed,
-                font,
-                fontScale,
-                fontColor,
-                lineType)
 
     # show the frame to our screen
     cv2.imshow("Frame", frame)
