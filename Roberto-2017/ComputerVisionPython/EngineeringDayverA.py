@@ -6,8 +6,7 @@ import numpy as np
 import argparse
 import imutils
 import cv2
-import serial
-import time
+
 
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
@@ -22,14 +21,7 @@ fontScale = 0.75
 fontColor = (0, 0, 255)
 lineType = 1
 
-xGreen = 0
-yGreen = 0
-
 bottomLeftCornerOfTextRed = (140, 440)
-
-
-xRed = 0
-yRed = 0
 
 # ([0-180]H, [0-255]S, [0-255]V)
 # define the lower and upper boundaries of the "green"
@@ -173,12 +165,6 @@ while True:
         # draw the connecting lines
         thicknessRed = int(np.sqrt(args["buffer"] / float(i + 1)) * 2.5)
         cv2.line(frame, ptsRed[i - 1], ptsRed[i], (0, 0, 255), thicknessRed)
-
-    # connect circle centers with line
-    if int(xRed) > 0 and int(xGreen) > 0:
-        cv2.line(frame, (int(xRed), int(yRed)), (int(xGreen), int(yGreen)), (255, 0, 0), 5)
-    else:
-        cv2.line(frame, (0, 0), (0, 0), (255, 0, 0), 5)
 
     # showing position
     cv2.putText(frame, "Green Ball",
